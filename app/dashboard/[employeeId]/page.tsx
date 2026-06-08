@@ -17,11 +17,20 @@ export default function EmployeeFocusView() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+
+    console.log("🔌 [Dashboard] Socket ID:", socket.id);
+  console.log("🔌 [Dashboard] Socket connected:", socket.connected);
+
+
     // 1. Success Listener
     const handleReceiveScreenshot = (payload: {
       deviceId: string;
       image: string;
     }) => {
+      console.log(
+        "📸 [Dashboard] owner:capture_result received!",
+        payload.deviceId,
+      );
       setLiveImageStr(payload.image);
       setCaptureTime(new Date().toLocaleTimeString());
       setIsCapturing(false);
@@ -30,7 +39,7 @@ export default function EmployeeFocusView() {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
 
-    // 2. 🚀 NEW: Error Listener (Catches the offline status instantly)
+
     const handleError = (error: { message: string }) => {
       // Show the popup alert from the server
       alert(error.message);
@@ -41,18 +50,19 @@ export default function EmployeeFocusView() {
     };
 
     socket.on("owner:capture_result", handleReceiveScreenshot);
-    socket.on("owner:error", handleError); // Start listening for errors
+    socket.on("agent:error", handleError); 
 
     return () => {
       socket.off("owner:capture_result", handleReceiveScreenshot);
-      socket.off("owner:error", handleError);
+      socket.off("agent:error", handleError);
     };
   }, []);
 
   const triggerLiveCapture = () => {
     setIsCapturing(true);
 
-    socket.emit("owner:request_capture", { deviceId: employeeId });
+    socket.emit("owner:trigger_screenshot", { deviceId: employeeId });
+    console.log("Employee ID requested capture:" , employeeId)
 
     // 🚀 Store the timeout ID in our ref
     timeoutRef.current = setTimeout(() => {
