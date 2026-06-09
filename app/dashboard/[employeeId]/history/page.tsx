@@ -90,7 +90,7 @@ export default function EmployeeHistoryView() {
               key={session.id}
               className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm"
             >
-              {/* Session Header (Clock In / Out) */}
+              Session Header (Clock In / Out)
               <div className="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center">
                 <div>
                   <h3 className="font-semibold text-slate-900">

@@ -37,6 +37,7 @@ export default function DashboardLayout({
       {pairingRequest && (
         <PairingModal
           request={pairingRequest}
+          socket={ socket }
           onClose={() => setPairingRequest(null)}
         />
       )}
