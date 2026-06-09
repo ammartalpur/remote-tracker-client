@@ -209,7 +209,7 @@ export default function EmployeeGrid() {
                   <span className="text-slate-300">•</span>
                   {/* 🚀 Restored Rework Button */}
                   <button
-                    onClick={() => handleDeleteEmployee(employee.id , employee.name)}
+                    onClick={() => handleDeleteEmployee(employee.id , employee.name || "Unknown Employee")}
                     className="text-amber-600 hover:text-amber-700 font-semibold text-xs transition-colors flex items-center gap-1"
                   >
                     <svg
